@@ -1,4 +1,4 @@
-import { authenCode } from "../../db/schema/authen";
+import { authenCode } from "../schema/authen";
 import DataBases from "../database/database";
 import type { VisitModel } from "../visit/visit.entity";
 import { v4 as uuidv4 } from 'uuid'

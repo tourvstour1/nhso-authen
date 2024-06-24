@@ -1,11 +1,11 @@
 import { MongoClient } from 'mongodb'
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
-import { visit } from '../../db/schema/visit'
-import { patient } from '../../db/schema/patient'
-import { servicePoint } from '../../db/schema/servicePoint';
-import { visitService } from '../../db/schema/visitService';
-import { authenCode } from '../../db/schema/authen';
+import { visit } from '../schema/visit'
+import { patient } from '../schema/patient'
+import { servicePoint } from '../schema/servicePoint';
+import { visitService } from '../schema/visitService';
+import { authenCode } from '../schema/authen';
 class DataBases {
     private postgres = () => {
         return new Pool({

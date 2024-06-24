@@ -1,4 +1,3 @@
-
 import MongoSerive from "../mongo/mongo.service"
 import NhsoProvider from "../provider/nhso.provider"
 import type { ClaimServiceModel, AuthModel, CreatAuthPayloadMode, AuthNhsoModel } from "./auth.entity"

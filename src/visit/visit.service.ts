@@ -1,11 +1,11 @@
-import { patient } from "../../db/schema/patient";
-import { servicePoint } from "../../db/schema/servicePoint";
-import { visit } from "../../db/schema/visit";
-import { visitService } from "../../db/schema/visitService";
+import { patient } from "../schema/patient";
+import { servicePoint } from "../schema/servicePoint";
+import { visit } from "../schema/visit";
+import { visitService } from "../schema/visitService";
 import DataBases from "../database/database";
 import { and, eq, isNull, not, or, sql } from "drizzle-orm";
 import type { VisitModel } from "./visit.entity";
-import { authenCode } from "../../db/schema/authen";
+import { authenCode } from "../schema/authen";
 
 class VisitService {
     private hosptial = new DataBases().db
