@@ -1,12 +1,15 @@
 import { Elysia } from 'elysia'
-import Test from './test/test.service'
 import Services from './service'
 
+const port = Bun.env['PORT'] as unknown as number
+const app: Elysia = new Elysia()
 const service = new Services()
+
 service.setAutoAuthen()
-new Elysia()
+
+app
     .get('/', () => service.authen())
     .get('/getClaim', () => new Services().getClaim())
-    .get('/user/:id', ({ params: { id } }) => id)
-    .post('/form', ({ body }) => body)
-    .listen(7000)
+    .listen(port, () => {
+        console.log('server nhso auth start on port: ' + port)
+    })
