@@ -1,0 +1,25 @@
+import { pgTable,varchar } from "drizzle-orm/pg-core";
+
+export const payment = pgTable('t_visit_payment', {
+    t_visit_payment_id: varchar('t_visit_payment_id'),
+    t_visit_id: varchar('t_visit_id'),
+    b_contract_plans_id: varchar('b_contract_plans_id'),
+    b_contract_id: varchar('b_contract_id'),
+    visit_payment_card_number: varchar('visit_payment_card_number'),
+    visit_payment_card_issue_date: varchar('visit_payment_card_issue_date'),
+    visit_payment_card_expire_date: varchar('visit_payment_card_expire_date'),
+    visit_payment_main_hospital: varchar('visit_payment_main_hospital'),
+    visit_payment_sub_hospital: varchar('visit_payment_sub_hospital'),
+    visit_payment_priority: varchar('visit_payment_priority'),
+    visit_payment_money_limit: varchar('visit_payment_money_limit'),
+    visit_payment_used_money_limit: varchar('visit_payment_used_money_limit'),
+    visit_payment_staff_record: varchar('visit_payment_staff_record'),
+    visit_payment_record_date_time: varchar('visit_payment_record_date_time'),
+    visit_payment_staff_update: varchar('visit_payment_staff_update'),
+    visit_payment_update_date_time: varchar('visit_payment_update_date_time'),
+    visit_payment_staff_cancel: varchar('visit_payment_staff_cancel'),
+    visit_payment_cancel_date_time: varchar('visit_payment_cancel_date_time'),
+    visit_payment_active: varchar('visit_payment_active'),
+    visit_payment_regular_hospital: varchar('visit_payment_regular_hospital'),
+    b_tariff_id: varchar('b_tariff_id'),
+})

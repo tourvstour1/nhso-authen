@@ -9,3 +9,8 @@ export interface FetchGettMode {
     query?: string
     cookie: string | undefined
 }
+
+export interface LinePostModel {
+    text: string
+    token: string
+}

@@ -1,14 +1,13 @@
-import { patient } from "../schema/patient";
-import { servicePoint } from "../schema/servicePoint";
-import { visit } from "../schema/visit";
-import { visitService } from "../schema/visitService";
-import DataBases from "../database/database";
+import { patient } from "../../database/schema/patient";
+import { servicePoint } from "../../database/schema/servicePoint";
+import { visit } from "../../database/schema/visit";
+import { visitService } from "../../database/schema/visitService";
+import DataBases from "../../database/database";
 import { and, eq, isNull, not, or, sql } from "drizzle-orm";
 import type { VisitModel } from "./visit.entity";
-import { authenCode } from "../schema/authen";
+import { authenCode } from "../../database/schema/authen";
 
-class VisitService {
-    private hosptial = new DataBases().db
+class VisitService extends DataBases {
 
     getvisit = async () => {
         const getDate = new Date().toLocaleDateString('ce-CE', {
@@ -16,7 +15,7 @@ class VisitService {
         }).split('-')
         const newDate = (+getDate[0] + 543) + '-' + getDate[1] + '-' + getDate[2]
 
-        const getPerson = await this.hosptial.select(
+        const getPerson = await this.db.select(
             {
                 visit_vn: visit.visit_vn,
                 patient_pid: patient.patient_pid,
@@ -27,8 +26,8 @@ class VisitService {
 						            then 
 								        case when regexp_replace( t_patient.patient_patient_mobile_phone , '[^0-9]*', '', 'g' )::text = ''
 								            then '032688558'
-								             else regexp_replace( t_patient.patient_patient_mobile_phone , '[^0-9]*', '', 'g' )::text END
-						            else regexp_replace( t_patient.patient_phone_number, '[^0-9]*', '', 'g' )::text 
+								             else substr(regexp_replace( t_patient.patient_patient_mobile_phone , '[^0-9]*', '', 'g' )::text,1,10) END
+						            else substr(regexp_replace( t_patient.patient_phone_number, '[^0-9]*', '', 'g' )::text ,1,10)
 						            end`,
                 visit_hn: visit.visit_hn,
                 t_nhso_authencode: authenCode.claim_code
@@ -37,7 +36,7 @@ class VisitService {
             .from(visit)
             .innerJoin(patient, eq(visit.visit_hn, patient.patient_hn))
             .leftJoin(visitService, eq(visit.t_visit_id, visitService.t_visit_id))
-            .innerJoin(servicePoint, eq(visitService.b_service_point_id, servicePoint.b_service_point_id))
+            .leftJoin(servicePoint, eq(visitService.b_service_point_id, servicePoint.b_service_point_id))
             .leftJoin(authenCode, eq(authenCode.vn, visit.visit_vn))
             .where(
                 and(
@@ -48,7 +47,7 @@ class VisitService {
                     or(
                         isNull(authenCode.claim_code),
                         eq(authenCode.claim_code, '')
-                    )
+                    ),
                 )
             )
             .groupBy(
@@ -61,8 +60,8 @@ class VisitService {
 						            then 
 								        case when regexp_replace( t_patient.patient_patient_mobile_phone , '[^0-9]*', '', 'g' )::text = ''
 								            then '032688558'
-								             else regexp_replace( t_patient.patient_patient_mobile_phone , '[^0-9]*', '', 'g' )::text END
-						            else regexp_replace( t_patient.patient_phone_number, '[^0-9]*', '', 'g' )::text 
+								             else substr(regexp_replace( t_patient.patient_patient_mobile_phone , '[^0-9]*', '', 'g' )::text,1,10) END
+						            else substr(regexp_replace( t_patient.patient_phone_number, '[^0-9]*', '', 'g' )::text ,1,10)
 						            end`,
                 visit.visit_hn,
                 authenCode.claim_code

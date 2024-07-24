@@ -1,13 +1,12 @@
-import { authenCode } from "../schema/authen";
-import DataBases from "../database/database";
+import { authenCode } from "../../database/schema/authen";
+import DataBases from "../../database/database";
 import type { VisitModel } from "../visit/visit.entity";
 import { v4 as uuidv4 } from 'uuid'
-import type { ClaimPayloadModel, CreateAuthHisMode } from "./update.entity";
-
-import LoginService from "../login/login.service";
-import PlansService from "../plane/plans.service";
-import type { GetClaimModel } from "../auth/auth.entity";
+import LoginService from "../../nhso/login/login.service";
+import PlansService from "../../nhso/plane/plans.service";
+import type { GetClaimModel } from "../../nhso/auth/auth.entity";
 import VisitService from "../visit/visit.service";
+import type { ClaimPayloadModel, CreateAuthHisMode } from "./update.entity";
 
 class UpdateService extends DataBases {
     private login = new LoginService()
@@ -38,19 +37,15 @@ class UpdateService extends DataBases {
                 delete_date_time: null,
                 user_delete_id: null
             }
-
             if (item.visit.visit_vn !== undefined) {
                 createAuthHisList.push(itemList)
             }
-
         }
-
         await this.createAuthHis(createAuthHisList)
         console.log('update his auth code sucess');
     }
 
     private createAuthHis = async (listAuth: CreateAuthHisMode[]) => {
-
         for (let auth in listAuth) {
             const data = listAuth[auth]
             await this.db.insert(authenCode).values({
@@ -67,7 +62,7 @@ class UpdateService extends DataBases {
                 user_record_id: data.user_record_id,
                 delete_date_time: data.delete_date_time,
                 user_delete_id: data.user_delete_id
-            }).catch(err => {
+            }).catch((err: any) => {
                 console.log(err);
                 console.log(data.vn);
             })
@@ -92,21 +87,26 @@ class UpdateService extends DataBases {
                             date: v.date_visit
                         }
                     }
-
+                    let claimCode = ''
                     const resultClaimCode = await this.plans.getClaimCode(getCodePayload)
                     if (resultClaimCode !== undefined) {
-                        const getClaim = resultClaimCode.find(i => (i.pid === getCodePayload.payload?.pid && i.receivedDateTime === v.date_visit + 'T' + v.time_visit))
-                        if (getClaim !== undefined) {
-                            const claimPayload: ClaimPayloadModel = {
-                                visit: v,
-                                claimCode: getClaim
+                        try {
+                            const getClaim = resultClaimCode.find(i => (i.pid === getCodePayload.payload?.pid && i.receivedDateTime === v.date_visit + 'T' + v.time_visit))
+                            if (getClaim !== undefined) {
+                                const claimPayload: ClaimPayloadModel = {
+                                    visit: v,
+                                    claimCode: getClaim
+                                }
+                                responstClaim.push(claimPayload)
+                                claimCode = claimPayload.claimCode.claimCode
                             }
-                            responstClaim.push(claimPayload)
                         }
-
+                        catch (err) {
+                            console.error(v);
+                        }
                     }
                     row += 1
-                    console.log(row + ' :loops: ' + visit.length)
+                    console.log(row + ' > ' + visit.length + ' ' + v.patient_pid + ' :' + claimCode)
 
                     if (row === visit.length) {
                         reslove(responstClaim)

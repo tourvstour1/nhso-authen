@@ -1,4 +1,4 @@
-import type { ClaimDataModel } from "../plane/plans.entity"
+import type { ClaimDataModel } from "../../nhso/plane/plans.entity"
 import type { VisitModel } from "../visit/visit.entity"
 
 export interface CreateAuthHisMode {

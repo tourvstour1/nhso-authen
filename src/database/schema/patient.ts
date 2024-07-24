@@ -1,4 +1,4 @@
-import {  doublePrecision, pgTable,   uuid, varchar } from "drizzle-orm/pg-core";
+import { doublePrecision, pgTable, uuid, varchar } from "drizzle-orm/pg-core";
 
 export const patient = pgTable('t_patient', {
     t_patient_id: varchar('t_patient_id'),
@@ -40,7 +40,7 @@ export const patient = pgTable('t_patient', {
     patient_mother_lastname: varchar('patient_mother_lastname'),
     patient_father_lastname: varchar('patient_father_lastname'),
     patient_couple_lastname: varchar('patient_couple_lastname'),
-    patient_phone_number: varchar('patient_phone_number'),
+    patient_phone_number: varchar('patient_phone_number').notNull(),
     f_patient_relation_id: varchar('f_patient_relation_id'),
     patient_contact_phone_number: varchar('patient_contact_phone_number'),
     patient_contact_sex_id: varchar('patient_contact_sex_id'),
@@ -82,3 +82,89 @@ export const patient = pgTable('t_patient', {
     patient_guid: uuid('patient_guid'),
     picture_profile: varchar('picture_profile')
 })
+
+export type SelectPatient = typeof patient.$inferSelect
+export type InsertPatine = typeof patient.$inferSelect
+
+export interface PatientModel {
+    t_patient_id: string;
+    patient_hn: string;
+    f_patient_prefix_id: string;
+    patient_firstname: string;
+    patient_lastname: string;
+    patient_xn: string;
+    f_sex_id: string;
+    patient_birthday: string;
+    patient_house: string;
+    patient_road: string;
+    patient_moo: string;
+    patient_tambon: string;
+    patient_amphur: string;
+    patient_changwat: string;
+    f_patient_marriage_status_id: string;
+    f_patient_occupation_id: string;
+    f_patient_race_id: string;
+    f_patient_nation_id: string;
+    f_patient_religion_id: string;
+    f_patient_education_type_id: string;
+    f_patient_family_status_id: string;
+    patient_father_firstname: string;
+    patient_mother_firstname: string;
+    patient_couple_firstname: string;
+    patient_move_in_date_time: string;
+    f_patient_discharge_status_id: string;
+    patient_discharge_date_time: string;
+    f_patient_blood_group_id: string;
+    f_patient_foreigner_id: string;
+    f_patient_area_status_id: string;
+    patient_father_pid: string;
+    patient_mather_pid: string;
+    patient_couple_pid: string;
+    patient_community_status: string;
+    patient_private_doctor: string;
+    patient_pid: string;
+    patient_mother_lastname: string;
+    patient_father_lastname: string;
+    patient_couple_lastname: string;
+    patient_phone_number: string;
+    f_patient_relation_id: string;
+    patient_contact_phone_number: string;
+    patient_contact_sex_id: string;
+    patient_contact_house: string;
+    patient_contact_moo: string;
+    patient_contact_changwat: string;
+    patient_contact_amphur: string;
+    patient_contact_tambon: string;
+    patient_contact_road: string;
+    patient_contact_firstname: string;
+    patient_contact_lastname: string;
+    patient_birthday_true: string;
+    patient_merged: string;
+    patient_record_date_time: string;
+    patient_update_date_time: string;
+    patient_staff_record: string;
+    patient_staff_modify: string;
+    patient_staff_cancel: string;
+    patient_active: string;
+    patient_drugallergy: string;
+    patient_language_for_print: string;
+    patient_patient_mobile_phone: string;
+    patient_contact_mobile_phone: string;
+    patient_has_home_in_pcu: string;
+    t_health_family_id: string;
+    patient_other_country_address: string;
+    patient_is_other_country: string;
+    deny_allergy: string;
+    latitude: number;
+    longitude: number;
+    t_person_id: string;
+    patient_patient_email: string;
+    patient_contact_email: string;
+    sent_email_invitation: string;
+    welfare_old_hn: string;
+    patient_postcode: string;
+    patient_contact_postcode: string;
+    patient_addrees_eng: string;
+    patient_guid: string;
+    picture_profile: string;
+}

@@ -1,7 +1,25 @@
-import type { FetchPostMode, FetchGettMode } from "./provider.entity"
+import type { FetchPostMode, FetchGettMode, LinePostModel } from "./provider.entity"
 
 class FetchProvider {
     private url = Bun.env['URL_MAIN'] as unknown as string
+    
+    fetchPostLine = async (post: LinePostModel) => {
+        const notifyOptions = {
+            method: 'post',
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                'Authorization': `Bearer ${post.token}`
+            },
+            body: new URLSearchParams({
+                message: post.text
+            })
+        }
+
+        const result = await fetch(Bun.env['LINE_NONIFY_END_POINT'] as unknown as string, {
+            ...notifyOptions
+        })
+        return result
+    }
 
     fetchPost = async (post: FetchPostMode) => {
         const postOptions = {

@@ -1,5 +1,5 @@
 import type { LoginModel } from "./login.entity";
-import nhsoProvider from "../provider/nhso.provider";
+import nhsoProvider from "../../provider/nhso.provider";
 
 class LoginService extends nhsoProvider {
 

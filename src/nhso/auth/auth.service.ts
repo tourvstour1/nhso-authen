@@ -1,5 +1,5 @@
-import MongoSerive from "../mongo/mongo.service"
-import NhsoProvider from "../provider/nhso.provider"
+import MongoSerive from "../../mongo/mongo.service"
+import NhsoProvider from "../../provider/nhso.provider"
 import type { ClaimServiceModel, AuthModel, CreatAuthPayloadMode, AuthNhsoModel } from "./auth.entity"
 
 class AuthService {
@@ -49,20 +49,20 @@ class AuthService {
                 fullAddress: payload.servicePlans.personData.fullAddress,
                 hnCode: payload.visit.visit_hn,
                 mainInscl: {
-                    rightId: payload.servicePlans.mainInscl.rightId,
-                    rightName: payload.servicePlans.mainInscl.rightName,
-                    codeWithName: payload.servicePlans.mainInscl.codeWithName
+                    rightId: payload.servicePlans.mainInscl.rightId === undefined ? "" : payload.servicePlans.mainInscl.rightId,
+                    rightName: payload.servicePlans.mainInscl.rightName === undefined ? "" : payload.servicePlans.mainInscl.rightName,
+                    codeWithName: payload.servicePlans.mainInscl.codeWithName === undefined ? "" : payload.servicePlans.mainInscl.codeWithName
                 },
                 subInscl: {
-                    inscl: payload.servicePlans.subInscl.inscl,
-                    insclName: payload.servicePlans.subInscl.insclName,
-                    mainInscl: payload.servicePlans.subInscl.mainInscl,
+                    inscl: payload.servicePlans.subInscl.inscl === undefined ? "" : payload.servicePlans.subInscl.inscl,
+                    insclName: payload.servicePlans.subInscl.insclName === undefined ? "" : payload.servicePlans.subInscl.insclName,
+                    mainInscl: payload.servicePlans.subInscl.mainInscl === undefined ? "" : payload.servicePlans.subInscl.mainInscl,
                     right: {
-                        rightId: payload.servicePlans.subInscl.right.rightId,
-                        rightName: payload.servicePlans.subInscl.right.rightName,
-                        codeWithName: payload.servicePlans.subInscl.right.codeWithName
+                        rightId: payload.servicePlans.subInscl.right.rightId === undefined ? "" : payload.servicePlans.subInscl.right.rightId,
+                        rightName: payload.servicePlans.subInscl.right.rightName === undefined ? "" : payload.servicePlans.subInscl.right.rightName,
+                        codeWithName: payload.servicePlans.subInscl.right.codeWithName === undefined ? "" : payload.servicePlans.subInscl.right.codeWithName
                     },
-                    codeWithName: payload.servicePlans.subInscl.codeWithName,
+                    codeWithName: payload.servicePlans.subInscl.codeWithName === undefined ? "" : payload.servicePlans.subInscl.codeWithName,
                 },
                 receivedDate: payload.visit.date_visit,
                 receivedTime: payload.visit.time_visit,
@@ -79,7 +79,7 @@ class AuthService {
 
     authNhso = async (payload: AuthNhsoModel) => {
         const responst = await this.nhsoProvider.nhsoAuth(payload)
-    
+
         if (responst !== undefined) {
             const resJson = await responst.json()
             const querCreate = {
@@ -87,7 +87,6 @@ class AuthService {
                 result: resJson,
                 status: responst.status
             }
-
             return querCreate
         } else {
             return undefined

@@ -1,4 +1,4 @@
-import type { VisitModel } from "../visit/visit.entity"
+import type { VisitModel } from "../../hospital/visit/visit.entity"
 
 export interface NhsoFindPlaneModel {
     cid: string
@@ -155,3 +155,6 @@ export interface ClaimDataModel {
     sexDesc: string;
     displayBirthDate: string;
 }
+
+
+

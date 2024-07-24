@@ -1,6 +1,7 @@
 import DataBases from "../database/database";
-import type { VisitModel } from "../visit/visit.entity";
-import type { PatientClaimModel } from "./mongo.schema";
+import type { VisitModel } from "../hospital/visit/visit.entity";
+import type { EndpointModel } from "../nhso/endpoint/endpoint.entity";
+import type { ClaimDetaleResponstSchema, PatientClaimModel } from "./mongo.schema";
 
 class MongoSerive extends DataBases {
     findVisitNotClaim = async (date: string) => {
@@ -35,11 +36,9 @@ class MongoSerive extends DataBases {
         }
     }
 
-    findAuthMongo = async (visit: VisitModel[]) => {
-        //   const pidList = (visit.map(i => i.patient_pid) as unknown as string[]).reduce((pre: string[], cur: string) => pre.includes(cur) ? pre : pre.concat(cur), [])
+    findAuthMongo = async (visit: VisitModel[]) => {    
         const findData = await this.mongo().collection('result_auth').find({
-            "payload.receivedDate": visit.map(i => i.date_visit)[0],
-          //  "payload.receivedTime": { $in: visit.map(i => i.time_visit) },
+            "payload.receivedDate": visit.map(i => i.date_visit)[0],     
             'claimCode': { "$ne": { undefined } },
             "result.status": {
                 $in: ['SAVE', 200, 400]
@@ -61,9 +60,6 @@ class MongoSerive extends DataBases {
                 vn: string
             },
         }[]
-
-  //      console.log(findData);
-        
         return findData
     }
 
@@ -80,16 +76,11 @@ class MongoSerive extends DataBases {
                 await mongo.insertOne(auth[e])
                 console.log('insert ' + auth[e].pid);
             } else {
-                // await mongo.updateOne({
-                //     "payload.receivedDate": auth[e].payload.receivedDate,
-                //     "payload.pid": auth[e].payload.pid
-                // }, auth[e])
-
                 console.log('update ' + auth[e].pid);
-
             }
         }
-
     }
+
+    creatEndPoint = (payload: ClaimDetaleResponstSchema) => { }
 }
 export default MongoSerive

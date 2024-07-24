@@ -1,5 +1,5 @@
 import type { PersonPlansModel } from "../plane/plans.entity"
-import type { VisitModel } from "../visit/visit.entity"
+import type { VisitModel } from "../../hospital/visit/visit.entity"
 
 interface HomeAddress {
     addressNo: string;
@@ -81,20 +81,20 @@ export interface AuthModel {
     fullAddress?: string
     hnCode?: string
     mainInscl?: {
-        rightId?: string,
-        rightName?: string
-        codeWithName?: string
+        rightId?: string | ""
+        rightName?: string | ""
+        codeWithName?: string | ""
     },
     subInscl?: {
-        inscl?: string
-        insclName?: string
-        mainInscl?: string
+        inscl?: string | ""
+        insclName?: string | ""
+        mainInscl?: string | ""
         right?: {
-            rightId?: string | undefined
-            rightName?: string
-            codeWithName?: string
+            rightId?: string | ""
+            rightName?: string | ""
+            codeWithName?: string | ""
         },
-        codeWithName?: string
+        codeWithName?: string | ""
     },
     receivedDate: string | boolean
     receivedTime: string
