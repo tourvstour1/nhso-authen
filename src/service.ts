@@ -44,7 +44,6 @@ class Services {
         await this.updates.updateToHospitalHis()
         const login = await this.login.login()
         const visit = await this.visit.getvisit()
-
         const mongoList = (await this.mongo.findAuthMongo(visit)) //.map(i => i.payload.pid)
 
         const visitAuth = visit.reduce((pre: VisitModel[], cur) => {
@@ -99,7 +98,7 @@ class Services {
                         if (resultAuth?.status !== 200) {
                             this.alertService.alertAuthenFalseToLine(claimPayload)
                             console.log(claimPayload.visit.visit_vn);
-                            
+
                         }
 
                         const getCodePayload: GetClaimModel = {
@@ -135,6 +134,8 @@ class Services {
                                 }
                             }
                         }
+                    } else {
+                        this.alertService.alertPlansFalseToLine(visitAuth[v])
                     }
                     row += 1
                     console.log(row + '-' + visitAuth.length + ' > ' + conditions.cid + '=' + plans?.mainInscl?.rightId)

@@ -18,18 +18,18 @@ class AlertService extends DataBases {
 
         if (find.length < 1) {
             const message = `📌ขอเลขAUTHEN CODE. ไม่สำเร็จ \nPID: ${claimPayload.visit.patient_pid}\nHN: ${claimPayload.visit.visit_hn}\nVN: ${claimPayload.visit.visit_vn}\nPHONE: ${claimPayload.visit.phone}\nสิทธิ์หลัก ${claimPayload.servicePlans?.mainInscl?.rightName}\nสิทธิ์รอง: ${claimPayload.servicePlans?.subInscl?.insclName}`
-            const resultAlert = await this.line.lineAlert(message)
+            await this.line.lineAlert(message)
             await this.insertVNAlert(claimPayload.visit.visit_hn, claimPayload.visit.visit_vn, message)
         }
 
     }
 
-    alertPlansFalseToLine=async(plansPayload:VisitModel)=>{
+    alertPlansFalseToLine = async (plansPayload: VisitModel) => {
         const find = await this.findVNAlert(plansPayload.visit_vn)
 
         if (find.length < 1) {
             const message = `📌เช็คสิทธิ์ไม่สำเร็จ \nPID: ${plansPayload.patient_pid}\nHN: ${plansPayload.visit_hn}\nVN: ${plansPayload.visit_vn}\nPHONE: ${plansPayload.phone}`
-            const resultAlert = await this.line.lineAlert(message)
+            await this.line.lineAlert(message)
             await this.insertVNAlert(plansPayload.visit_hn, plansPayload.visit_vn, message)
         }
     }
