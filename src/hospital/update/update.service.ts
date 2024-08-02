@@ -18,7 +18,7 @@ class UpdateService extends DataBases {
         console.log('job get claim code:= ' + visit.length)
         const getAuth = await this.getAuthCode(visit)
         const createAuthHisList: CreateAuthHisMode[] = []
-
+        const phoneDumy = "032688588"
         for (let auth in getAuth) {
             const item = getAuth[auth]
             const itemList: CreateAuthHisMode = {
@@ -26,7 +26,7 @@ class UpdateService extends DataBases {
                 vn: item.visit.visit_vn,
                 hn: item.visit.visit_hn,
                 pid: item.claimCode.pid,
-                mobile: item.visit.phone.substring(1, 10),
+                mobile: item.visit.phone == null ? phoneDumy : item.visit.phone.substring(1, 10),
                 correlation_id: uuidv4(),
                 claim_type: item.claimCode.claimType,
                 claim_code: item.claimCode.claimCode,
